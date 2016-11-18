@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{ "name":"visualization","version":"1", 
+         "packages":["charteditor", "corechart"]
+         }] 
+      }'></script> 
+  </head>
+  <script>
+
+    google.setOnLoadCallback(loadChart);
+
+    var wrapper;
+    
+    $.urlParam = function(name){
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if (results==null){
+                return null;
+            }else{
+                return results[1] || 0;
+            }
+    }
+    
+    $.getUrlVars = function() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+        
+        var baseURL = "https://api.scriptrapps.io/";
+        var token = "TkNCNzcxOUM4Qg==";
+    
+    
+    var params = {}
+    $.getUrlVars().forEach(function(param) {
+        if(param != 'auth_token') {
+           params[param] = $.urlParam(param);
+        }
+    });
+    
+    var options = {
+        type: "POST",
+        url: baseURL + "weathertest/chart",
+        success: function() {},
+        failure: function() {},
+        dataType: "json",
+        data: params
+    };
+    
+    if(token) {
+        options["headers"] = { "Authorization":  "bearer " + token };
+    }
+
+    function loadChart() {
+        var chart_content = {"options":{"title":"Weather","hAxis":{"title":"Type of Weather","textStyle":{"fontSize":12,"color":"#EE8300","bold":true},"titleTextStyle":{"fontSize":14,"color":"#777","bold":true},"useFormatFromData":true,"viewWindow":null,"minValue":null,"maxValue":null,"viewWindowMode":null},"vAxis":{"title":"Axis title","textStyle":{"fontSize":12,"color":"#EE8300","bold":false,"italic":false},"titleTextStyle":{"fontSize":14,"color":"#777","bold":true,"italic":false}},"colors":["#EE8300","#777"],"vAxes":[{"title":"People (in millions)","minValue":null,"maxValue":null,"useFormatFromData":true,"viewWindow":{"max":null,"min":null}},{"useFormatFromData":true,"viewWindow":{"max":null,"min":null},"minValue":null,"maxValue":null}],"legacyScatterChartLabels":true,"isStacked":false,"booleanRole":"certainty","legend":"right","width":600,"height":371},"state":{},"view":{"columns":null,"rows":null},"isDefaultVisualization":false,"chartType":"ColumnChart"};
+        delete chart_content.containerId;
+        chart_content["containerId"] = "scriptrChart"
+        wrapper = new google.visualization.ChartWrapper(chart_content);
+        $.ajax(options).done(function(response) {
+                $(".loading-google-frame").hide();
+                setDataSource(response.response.result);
+                $("#scriptrChart").show();
+             })
+             .fail(function(response ) {
+                var out = "";
+            if(response.status == 0 && response.statusText == "error" && response.readyState == 0 && response.responseText == ""){
+                out += "An error has occurred. This is most likely a cross-domain issue. In case you modified the response object in your script, try adding response.addHeaders(configuration.crossDomainHeaders) to your code.";
+            }else{
+                var output = response;
+                if(response.responseJSON){
+                    out += "Your chart data source script returned a "+ response.responseJSON.response.metadata.errorCode + " error."
+                }
+            }
+            $("#scriptrChart").html(out);
+                $(".loading-google-frame").hide();
+                $("#scriptrChart").show();
+            })
+            .always(function(data) {
+            });
+    }
+    
+    function setDataSource(data) {
+        wrapper.setDataTable(data);
+        if(wrapper.getChartType() != null) {
+            wrapper.draw();
+        }
+    }
+
+    function drawChart() {
+        wrapper.draw();
+    }
+
+    </script>
+  <body>
+      <div style="display: none;" id="scriptrChart"></div>
+      <div class='loading-google-frame' style="padding: 100px;"><i class='fa fa-spinner fa-spin fa-3x'></i></div>
+  </body>
+</html>

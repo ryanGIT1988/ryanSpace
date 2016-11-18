@@ -1,0 +1,18 @@
+var temperature = 18;
+var humidity= 40;
+return getAmbianceConfiguration(temperature, humidity);
+
+// define a bespoke function
+function getAmbianceConfiguration(temp, humidity) {
+  var matrix = {
+    "cold-dry": "warm",
+    "cold-humid": "warm and humid",
+    "cool-dry": "cosy",
+    "cool-humid": "cosy and humid",
+    "hot-dry": "chill",
+    "hot-humid": "chill and humid"
+  }
+  var tempCategory = (temp < 18) ? "cold" : (temp >= 18 && temp <=25) ? "cool" : "hot";
+  var humitityCategory = humidity < 70 ? "dry" : "humid";
+  return matrix[tempCategory + "-" + humitityCategory];
+}

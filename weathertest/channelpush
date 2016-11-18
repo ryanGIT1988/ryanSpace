@@ -1,0 +1,1 @@
+return publish ('SuperChannel', 'The weather is:',false)
