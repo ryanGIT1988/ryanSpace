@@ -1,5 +1,5 @@
-var temperature = 18;
-var humidity= 40;
+var temperature = 22;
+var humidity= 20;
 return getAmbianceConfiguration(temperature, humidity);
 
 // define a bespoke function
