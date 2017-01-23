@@ -1,0 +1,9 @@
+var data =  [ 
+    ['Weather', 'People (in millions)'],
+    ['Hot',  5],
+    ['Cosy',  1],
+    ['Cold', 1]
+];
+
+
+return publish("testChannel", {"result" : data});
