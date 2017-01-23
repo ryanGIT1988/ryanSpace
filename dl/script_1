@@ -1,0 +1,37 @@
+ var scriptName='script_1';
+ var stores = require("store");
+ var pubsub = require("pubsub");
+ var devices = require("device");
+ var util = require("./util");
+ function run(stopOnError, errorMessages){ 
+ var parameters="";
+ var response=""; 
+parameters={"groupName":"script-execute"};
+util.callApi("SaveGroup", parameters, null, errorMessages, stopOnError, scriptName, "script-execute");
+parameters={"groupName":"script-read"};
+util.callApi("SaveGroup", parameters, null, errorMessages, stopOnError, scriptName, "script-read");
+parameters={"groupName":"test-group"};
+util.callApi("SaveGroup", parameters, null, errorMessages, stopOnError, scriptName, "test-group");
+util.callApi("SaveConfiguration", {"apsdb.defaultResponseType":"JSON","apsdb.defaultRepositoryName":"ryanSpace","apsdb.defaultRepositoryOwner":"ryanGIT1988","apsdb.defaultRepositoryBranch":"master","apsdb.defaultRepositoryAccessToken":"0297c0dbfca1e4930911c77dd67cb0436115c981","apsdb.defaultReadACL":"scriptr","apsdb.disableSchemalessDocs":"true","apsdb.optionalBindReferrer":"false","apsdb.defaultTokenExpires":"1800","apsdb.maximumTokenExpires":"86400","apsdb.defaultTokenLifeTime":"7200","apsdb.maximumTokenLifeTime":"604800","apsdb.allowForce200ResponseStatus":"true","apsdb.useDeprecatedSocialApis":"false","apsdb.accessControlAllowOrigin":"*,http://blue.scriptrapps.io,https://blue.scriptrapps.io,https://test.scriptr.io","apsdb.facebookConsumerKey":"341726685895718","apsdb.facebookConsumerSecret":"62d55f6f76433f42c644ef2e9caf91bf","apsdb.facebookAccessToken":"EAAE2zHG5HCYBAHmJmFpTPIaeC0AxOumbGgdbjFk11oUym84oypwPvLgxeV507J2fqA5wLNpTIeTZAoXbGRQTEK8ZC4kqUgShObCZAjaKZAgEF7Q1LktzZB6gqe1W0pQsE7Na00xOz6sV8eqcG3BRzT2agBNftZBAkZD","apsdb.twitterConsumerKey":"q2iQyGWxDH5ApXvWmPZDSrY2g","apsdb.twitterConsumerSecret":"2eQidGWm2oHtzhNvUnNw5VS1I2WblSRM4n0dHCeD8KaqgE82NV","apsdb.twitterAccessToken":"167148902-q5dGxWn87lV8KcsnxZFbQgz6pN4H5M7lbxUPorNe","apsdb.twitterAccessTokenSecret":"hOIaqunuSXeTLJqQbSrxagldoOSSvL9fDakndiVOtDRjE","apsdb.P3P":""}, null, errorMessages, stopOnError, scriptName, "");
+util.callApi("SaveConfiguration", {"apsdb.DefaultStore.deleteDocumentACL":"nobody","apsdb.DefaultStore.getFileACL":"nobody","apsdb.DefaultStore.saveDocumentACL":"nobody","apsdb.DefaultStore.queryACL":"nobody"}, null, errorMessages, stopOnError, scriptName, "DefaultStore");
+var channel_testChannel_options={  "subscribeACL": "anonymous", "publishACL": "anonymous" }
+response =  pubsub.createChannel("testChannel",channel_testChannel_options);
+util.handleResponse(response, errorMessages, stopOnError, "pubsub.createChannel", scriptName, "testChannel");
+response =  pubsub.subscribe("testChannel","yh","SCRIPT");
+util.handleResponse(response, errorMessages, stopOnError, "pubsub.subscribe", scriptName, "testChannel_yh");
+var channel_SuperChannel_options={  "subscribeACL": "anonymous", "publishACL": "anonymous" }
+response =  pubsub.createChannel("SuperChannel",channel_SuperChannel_options);
+util.handleResponse(response, errorMessages, stopOnError, "pubsub.createChannel", scriptName, "SuperChannel");
+response =  pubsub.subscribe("SuperChannel","weathertest/ryan","SCRIPT");
+util.handleResponse(response, errorMessages, stopOnError, "pubsub.subscribe", scriptName, "SuperChannel_weathertest/ryan");
+response =  pubsub.subscribe("SuperChannel","weathertest/weathermachine","SCRIPT");
+util.handleResponse(response, errorMessages, stopOnError, "pubsub.subscribe", scriptName, "SuperChannel_weathertest/weathermachine");
+response =  pubsub.subscribe("SuperChannel","weathertest/chart","SCRIPT");
+util.handleResponse(response, errorMessages, stopOnError, "pubsub.subscribe", scriptName, "SuperChannel_weathertest/chart");
+response =  pubsub.subscribe("SuperChannel","testPush","SCRIPT");
+util.handleResponse(response, errorMessages, stopOnError, "pubsub.subscribe", scriptName, "SuperChannel_testPush");
+response =  schedule("weathertest/channelpush","0 30 9 * * ?");
+util.handleResponse(response, errorMessages, stopOnError, "schedule", scriptName, "weathertest/channelpush");
+response =  schedule("weathertest/channelpush","0 30 9 * * ?");
+util.handleResponse(response, errorMessages, stopOnError, "schedule", scriptName, "weathertest/channelpush");
+ }

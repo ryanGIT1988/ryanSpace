@@ -46,7 +46,7 @@ var content= '\n\
 		}\n\
 	});\n\
 \n\
-	var scriptName = \"yh\";\n\
+	var scriptName = \"DiTYhoefzI7FZAAM9juvE8B2UQ30iFPnJNBeEpQkluzWylzYfbGlquiXUBjusH6gndEGpKlHDhWzafxDt61Tw6IqpGAa6dMrB8pWYgDkJGMu88dvGzha36SeQA8OzCS12X9iKKoeg5TjItpuPglTNqTzM1b8Zx1rLiHM0DiTYhoefzI7FZAAM9juvE8B2UQ30iFPnJNBeEpQkluzWylzYfbGlquiXUBjusH6gndEGssssssssssssssssssssss\";\n\
     \n\
 	var subscribeChannel = \"testChannel\";\n\
 	var dataTag = \"\";\n\
