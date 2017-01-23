@@ -14,13 +14,19 @@ function execute(pl) {
 var decision = [];
 
 //PRESCRIPT START
-
+var BLUE = 0; 
 //PRESCRIPT END
 
 //RULES EVALUATION START
 if(typeof pl != "object") {
   return[];
 } else { 
+	  if((pl != null && pl["BLUE"] != undefined && pl["BLUE"] != 0)){
+       decision.push({ "apples": "Message 1" });
+	} 
+	 else if((pl != null && pl["BLUE"] != undefined && pl["BLUE"] == 0)){
+       decision.push({ "apples": "Message 2" });
+	} 
 }
 //RULES EVALUATION END
 

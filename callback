@@ -1,0 +1,2 @@
+var twitter = require("twitter");
+return twitter.getRequestToken("RyanAttiyehTestApp_callback_URL");

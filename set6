@@ -1,0 +1,59 @@
+
+var devices = require("device");
+
+var id = request.parameters.id;
+var name = request.parameters.name;
+var password = request.parameters.password;
+
+if (request.parameters.rest == "one"){
+	var nameDev = request.parameters.nameDev;
+	var params = {
+			"id" :id,
+			"name":name,
+			"password":password,
+			"apsdb.store":nameDev,
+			"meta.types":{"apsdb.store":"string"}
+	};
+	var result = devices.save(params);
+	return result;
+}
+
+if (request.parameters.rest == "two"){
+	var descr = request.parameters.descr;
+	var params = {
+			"id" :id,
+			"name":name,
+			"password":password,
+			"apsST_scriptName":descr,
+			"meta.types":{"apsST_scriptName":"string"}
+	};
+	var result = devices.save(params);
+	return result;
+}
+
+if (request.parameters.rest == "three"){
+	var age = request.parameters.age;
+	var params = {
+			"id" :id,
+			"name":name,
+			"password":password,
+			"apsws.ResponseType":age,
+			"meta.types":{"apsws.ResponseType":"string"}
+	};
+	var result = devices.save(params);
+	return result;
+}
+
+if (request.parameters.rest == "four"){
+	var stat = request.parameters.stat;
+	var params = {
+			"id" :id,
+			"name":name,
+			"password":password,
+			"meta.types":stat,
+			"meta.types":{"meta.types":"string"}
+	};
+	var result = devices.save(params);
+	return result;
+}
+

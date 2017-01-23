@@ -1,0 +1,14 @@
+console.log(request.method);
+ 
+var returnedValue = {};
+if(request.headers['content-type']){
+ console.log('content type is set');
+ returnedValue['contentType']  = request.headers['content-type'];
+}
+ 
+if(request.parameters['color']){
+ console.log('color parameter is set');
+ returnedValue['color'] = request.parameters['color'];
+}
+ 
+return returnedValue;
