@@ -1,0 +1,8 @@
+var data =  [ 
+    ['Weather', 'People (in millions)'],
+    ['Hot',  6],
+    ['Cosy',  4],
+    ['Cold', 5]
+]
+
+return data;
