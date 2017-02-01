@@ -1,6 +1,6 @@
 var data =  [ 
     ['Weather', 'People (in millions)'],
-    ['Hot',  0],
+    ['Hot',  10],
     ['Cosy',  4],
     ['Cold', 5]
 ]
