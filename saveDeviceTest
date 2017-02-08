@@ -1,9 +1,11 @@
 var jasmine = require("modules/jasmine/boot");
 var devices = require("device");
+var groups = require("group");
 
 jasmine.describe("Save Device:", function() {
   var nameDevice;
   var idDevice;
+  var idGroup;
   var randomNumber;
   var password1 = "password2";
     
@@ -11,11 +13,13 @@ jasmine.describe("Save Device:", function() {
       randomNumber = Math.floor(Math.random() * 101)
        nameDevice = "deviceName" + randomNumber;
        idDevice = "deviceID"+ randomNumber;
+       idGroup = "groupID"+ randomNumber;
       
   });
   
     jasmine.afterEach(function() {
      devices.delete(idDevice);
+      groups.delete(idGroup);
   });
 
   
@@ -28,20 +32,19 @@ jasmine.it("save device 1 success fields", function() {
 	var result = devices.save(params);
         jasmine.expect(result.metadata.status).toBe("success");
   		jasmine.expect(result.result.device.id).toBe(idDevice);
+  
+  	result = devices.get(idDevice);
+  		jasmine.expect(result.metadata.status).toBe("success");
+  		jasmine.expect(result.result.id).toBe(idDevice);
+  		jasmine.expect(result.result.name).toBe(nameDevice);
+  		jasmine.expect(result.result.lastModifiedDate).toBeTruthy();
+  		jasmine.expect(result.result.creator).toBeTruthy();
+  		jasmine.expect(result.result.creationDate).toBeTruthy();
+  		jasmine.expect(result.result.versionNumber).toBeTruthy();
+        jasmine.expect(result.result.latest).toBeTruthy();
+ 
     });
-  
-  jasmine.it("save device 2 success fields", function() {
-     var params = {
-		 "name": "name1",
-		  "id": idDevice,
-		  "password": password1
-	};
-	var result = devices.save(params);
-        jasmine.expect(result.metadata.status).toBe("success");
-  		jasmine.expect(result.result.device.id).toBe(idDevice);
-    });
-  
-  
+    
   jasmine.it("save device empty name", function() {
      var params = {
 		 "name": "",
@@ -95,6 +98,154 @@ jasmine.it("save device 1 success fields", function() {
         jasmine.expect(result.metadata.statusCode).toBe(400);
 		jasmine.expect(result.metadata.errorCode).toBe("PASSWORD_REQUIRED");
     	jasmine.expect(result.metadata.errorDetail).toBe("The field [password] is required.");
+
+    });
+  
+    jasmine.it("device name too long", function() {
+         
+      var params = {
+		 "name": "morethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan10",
+		  "id": idDevice,
+		  "password": password1
+	};
+	var result = devices.save(params)
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("INVALID_FIELD_VALUE");
+    	jasmine.expect(result.metadata.errorDetail).toBe("Field [name] value exceeds maximum permitted value of 1024 characters");
+
+    });
+  
+  jasmine.it("save device pass log in", function() {
+     var params = {
+		 "name": nameDevice,
+		  "login": idDevice,
+		  "password": password1
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("INVALID_PARAMETER");
+    	jasmine.expect(result.metadata.errorDetail).toBe("The parameter [login] is not allowed in SaveDevice.");
+
+    });
+  
+  jasmine.it("save device max allowed chars in id", function() {
+    var maxId = "morethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan1024charsfornameparammorethan10";
+    
+     var params = {
+		 "name": nameDevice,
+		  "id": maxId,
+		  "password": password1
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("INVALID_IDENTIFIER");
+    	jasmine.expect(result.metadata.errorDetail).toBe("The device [" + maxId +"] is invalid.");
+
+    });
+  
+  jasmine.it("save device invalid id", function() {
+    var invalidId = "!@#@#$#%^&&*";
+    
+     var params = {
+		 "name": nameDevice,
+		  "id": invalidId,
+		  "password": password1
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("INVALID_IDENTIFIER");
+    	jasmine.expect(result.metadata.errorDetail).toBe("The device [" + invalidId +"] is invalid.");
+
+    });
+  
+  jasmine.it("save device reserved id", function() {
+    
+     var params = {
+		 "name": nameDevice,
+		  "id": "all",
+		  "password": password1
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("INVALID_PARAMETER_VALUE");
+    	jasmine.expect(result.metadata.errorDetail).toBe("This is a reserved id.");
+
+    });
+  
+  jasmine.it("save device pass 2 ids", function() {
+
+        var params = {
+		 "name": nameDevice,
+		  "id": {"id1": idDevice, "id2": idDevice},
+		  "password": password1
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("INVALID_PARAMETER_TYPE");
+    	jasmine.expect(result.metadata.errorDetail).toBe("Invalid type for parameter [id].");
+
+    });
+  
+  jasmine.it("save device group doesnt exist", function() {
+    
+     var params = {
+		 "name": nameDevice,
+		  "id": idDevice,
+		  "password": password1,
+       	  "groups": "IDontExist"
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("INVALID_GROUP");
+    	jasmine.expect(result.metadata.errorDetail).toBe("Trying to add a device [" + idDevice + "] to a group [IDontExist] that does not exist.");
+
+    });
+  
+  jasmine.it("save device 1 success fields success group", function() {
+    groups.create(idGroup);
+   
+    var params = {
+		 "name": nameDevice,
+		  "id": idDevice,
+		  "password": password1,
+      		"groups": idGroup
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("success");
+  		jasmine.expect(result.result.device.id).toBe(idDevice);
+  
+  	result = devices.get(idDevice);
+  		jasmine.expect(result.metadata.status).toBe("success");
+  		jasmine.expect(result.result.id).toBe(idDevice);
+  		jasmine.expect(result.result.name).toBe(nameDevice);
+  		jasmine.expect(result.result.lastModifiedDate).toBeTruthy();
+  		jasmine.expect(result.result.creator).toBeTruthy();
+  		jasmine.expect(result.result.creationDate).toBeTruthy();
+  		jasmine.expect(result.result.versionNumber).toBeTruthy();
+        jasmine.expect(result.result.latest).toBeTruthy();
+    	jasmine.expect(result.result.groups).toBe(idGroup);
+ 
+    });
+  
+    jasmine.it("save device pass names", function() {
+
+        var params = {
+		 "name": {"name1": nameDevice, "name2": nameDevice},
+		  "id": idDevice,
+		  "password": password1
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("INVALID_PARAMETER_TYPE");
+    	jasmine.expect(result.metadata.errorDetail).toBe("Invalid type for parameter [name].");
 
     });
   
