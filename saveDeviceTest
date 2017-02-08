@@ -1,0 +1,104 @@
+var jasmine = require("modules/jasmine/boot");
+var devices = require("device");
+
+jasmine.describe("Save Device:", function() {
+  var nameDevice;
+  var idDevice;
+  var randomNumber;
+  var password1 = "password2";
+    
+    jasmine.beforeEach(function() {
+      randomNumber = Math.floor(Math.random() * 101)
+       nameDevice = "deviceName" + randomNumber;
+       idDevice = "deviceID"+ randomNumber;
+      
+  });
+  
+    jasmine.afterEach(function() {
+     devices.delete(idDevice);
+  });
+
+  
+jasmine.it("save device 1 success fields", function() {
+     var params = {
+		 "name": nameDevice,
+		  "id": idDevice,
+		  "password": password1
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("success");
+  		jasmine.expect(result.result.device.id).toBe(idDevice);
+    });
+  
+  jasmine.it("save device 2 success fields", function() {
+     var params = {
+		 "name": "name1",
+		  "id": idDevice,
+		  "password": password1
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("success");
+  		jasmine.expect(result.result.device.id).toBe(idDevice);
+    });
+  
+  
+  jasmine.it("save device empty name", function() {
+     var params = {
+		 "name": "",
+		  "id": idDevice,
+		  "password": password1
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("NAME_REQUIRED");
+    	jasmine.expect(result.metadata.errorDetail).toBe("The field [name] is required.");
+
+    });
+  
+  jasmine.it("save device empty id", function() {
+     var params = {
+		 "name": nameDevice,
+		  "id": "",
+		  "password": password1
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("INVALID_PARAMETER_VALUE");
+    	jasmine.expect(result.metadata.errorDetail).toBe("Invalid parameter value for parameter [id].");
+
+    });
+  
+   jasmine.it("save device empty name", function() {
+     var params = {
+		 "name": "",
+		  "id": idDevice,
+		  "password": password1
+	};
+	var result = devices.save(params);
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("NAME_REQUIRED");
+    	jasmine.expect(result.metadata.errorDetail).toBe("The field [name] is required.");
+
+    });
+  
+  jasmine.it("save device empty password", function() {
+     var params = {
+		 "name": nameDevice,
+		  "id": idDevice,
+		  "password": ""
+	};
+	var result = devices.save(params)
+        jasmine.expect(result.metadata.status).toBe("failure");
+        jasmine.expect(result.metadata.statusCode).toBe(400);
+		jasmine.expect(result.metadata.errorCode).toBe("PASSWORD_REQUIRED");
+    	jasmine.expect(result.metadata.errorDetail).toBe("The field [password] is required.");
+
+    });
+  
+});
+
+jasmine.execute();
+
