@@ -1,4 +1,4 @@
-var clientId = "1111111111111";
+var clientId = "2222222222222";
 var clientSecret = "62d55f6f76433f42c644ef2e9caf91bf";
 var callbackUrl = "https://www.scriptr.io/";
 var scope = "read_stream,user_photos,user_videos,user_status,manage_pages,read_insights";
