@@ -2,7 +2,7 @@ var data =  [
     ['Weather', 'People (in millions)'],
     ['Hot',  10],
     ['Cosy',  4],
-    ['Cold', 5]
+    ['Cold', 9]
 ]
 
 return data;
