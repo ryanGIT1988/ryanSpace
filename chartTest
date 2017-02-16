@@ -35,7 +35,7 @@ var content= '\n\
    \n\
     var socketURL = \"wss://api-test.apstrata.com/\"; //It is always the same it doesn\'t vary with subdomain\n\
 	\n\
-		var baseURL = window.location.origin + window.location.pathname.substring(0,window.location.pathname.indexOf(\"ah._-\"))\n\
+		var baseURL = window.location.origin + window.location.pathname.substring(0,window.location.pathname.indexOf(\"chartTest\"))\n\
    		var token = $.urlParam(\'auth_token\')\n\
 	\n\
 	\n\
@@ -46,7 +46,7 @@ var content= '\n\
 		}\n\
 	});\n\
 \n\
-	var scriptName = \"ag._-\";\n\
+	var scriptName = \"chartInstance\";\n\
     \n\
 	var subscribeChannel = \"testChannel\";\n\
 	var dataTag = \"\";\n\
