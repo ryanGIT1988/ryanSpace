@@ -127,7 +127,7 @@ var content= '\n\
 		chart_content[\"containerId\"] = \"scriptrChart\"\n\
    		wrapper = new google.visualization.ChartWrapper(chart_content);\n\
         if(!token) {\n\
-            var output = \"Parameter your hello auth_token is required when using real time communication.\";\n\
+            var output = \"Parameter your auth_token is required when using real time communication.\";\n\
             $(\"#scriptrChart\").html(output);\n\
             $(\".loading-google-frame\").hide();\n\
             $(\"#scriptrChart\").show()\n\

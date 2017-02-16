@@ -1,0 +1,1 @@
+publish ('testChannel', 'hello',false);

@@ -1,0 +1,17 @@
+var jasmine = require("modules/jasmine/boot");
+
+jasmine.describe("array containing", function() {
+  var foo;
+
+  jasmine.beforeEach(function() {
+    foo = [1, 2, 3, 4];
+  }); 
+
+  jasmine.it("matches arrays with some of the values", function() {
+    jasmine.expect(foo).toEqual(jasmine.arrayContaining([3, 1]));
+    jasmine.expect(foo).not.toEqual(jasmine.arrayContaining([6]));
+  });
+
+});
+
+jasmine.execute();

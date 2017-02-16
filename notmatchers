@@ -1,0 +1,151 @@
+var jasmine = require("modules/jasmine/boot");
+
+jasmine.describe("Included matchers:", function() {
+
+  jasmine.it("The 'toBe' matcher compares wjasmine.ith ===", function() {
+    var a = 12;
+    var b = a;
+
+    jasmine.expect(a).not.toBe(b);
+    jasmine.expect(a).not.toBe(null);
+  });
+
+  jasmine.describe("The 'toEqual' matcher", function() {
+
+    jasmine.it("works for simple literals and variables", function() {
+      var a = 12;
+      jasmine.expect(a).not.toEqual(12);
+    });
+
+    jasmine.it("should work for objects", function() {
+      var foo = {
+        a: 12,
+        b: 34
+      };
+      var bar = {
+        a: 12,
+        b: 34
+      };
+      jasmine.expect(foo).not.toEqual(bar);
+    });
+  });
+
+  jasmine.it("The 'toMatch' matcher is for regular expressions", function() {
+    var message = "foo bar baz";
+
+    jasmine.expect(message).not.toMatch(/bar/);
+    jasmine.expect(message).not.toMatch("bar");
+    jasmine.expect(message).not.toMatch(/quux/);
+  });
+
+  jasmine.it("The 'toBeDefined' matcher compares against `undefined`", function() {
+    var a = {
+      foo: "foo"
+    };
+
+    jasmine.expect(a.foo).not.toBeDefined();
+    jasmine.expect(a.bar).not.toBeDefined();
+  });
+
+  jasmine.it("The `toBeUndefined` matcher compares against `undefined`", function() {
+    var a = {
+      foo: "foo"
+    };
+
+    jasmine.expect(a.foo).not.toBeUndefined();
+    jasmine.expect(a.bar).not.toBeUndefined();
+  });
+
+  jasmine.it("The 'toBeNull' matcher compares against null", function() {
+    var a = null;
+    var foo = "foo";
+
+    jasmine.expect(null).not.toBeNull();
+    jasmine.expect(a).not.toBeNull();
+    jasmine.expect(foo).not.toBeNull();
+  });
+
+  jasmine.it("The 'toBeTruthy' matcher is for boolean casting testing", function() {
+    var a, foo = "foo";
+
+    jasmine.expect(foo).not.toBeTruthy();
+    jasmine.expect(a).not.toBeTruthy();
+  });
+
+  jasmine.it("The 'toBeFalsy' matcher is for boolean casting testing", function() {
+    var a, foo = "foo";
+
+    jasmine.expect(a).not.toBeFalsy();
+    jasmine.expect(foo).not.toBeFalsy();
+  });
+
+  jasmine.describe("The 'toContain' matcher", function() {
+    jasmine.it("works for finding an jasmine.item in an Array", function() {
+      var a = ["foo", "bar", "baz"];
+
+      jasmine.expect(a).not.toContain("bar");
+      jasmine.expect(a).not.toContain("quux");
+    });
+
+    jasmine.it("also works for finding a substring", function() {
+      var a = "foo bar baz";
+
+      jasmine.expect(a).not.toContain("bar");
+      jasmine.expect(a).not.toContain("quux");
+    });
+  });
+
+  jasmine.it("The 'toBeLessThan' matcher is for mathematical comparisons", function() {
+    var pi = 3.1415926,
+      e = 2.78;
+
+    jasmine.expect(e).not.toBeLessThan(pi);
+    jasmine.expect(pi).not.toBeLessThan(e);
+  });
+
+  jasmine.it("The 'toBeGreaterThan' matcher is for mathematical comparisons", function() {
+    var pi = 3.1415926,
+      e = 2.78;
+
+    jasmine.expect(pi).not.toBeGreaterThan(e);
+    jasmine.expect(e).not.toBeGreaterThan(pi);
+  });
+
+  jasmine.it("The 'toBeCloseTo' matcher is for precision math comparison", function() {
+    var pi = 3.1415926,
+      e = 2.78;
+
+    jasmine.expect(pi).not.toBeCloseTo(e, 2);
+    jasmine.expect(pi).not.toBeCloseTo(e, 0);
+  });
+
+  jasmine.it("The 'toThrow' matcher is for testing if a function throws an exception", function() {
+    var foo = function() {
+      return 1 + 2;
+    };
+    var bar = function() {
+      return a + 1;
+    };
+    var baz = function() {
+      throw 'what';
+    };
+
+    jasmine.expect(foo).not.toThrow();
+    jasmine.expect(bar).not.toThrow();
+    jasmine.expect(baz).not.toThrow('what');
+  });
+
+  jasmine.it("The 'toThrowError' matcher is for testing a specific thrown exception", function() {
+    var foo = function() {
+      throw new TypeError("foo bar baz");
+    };
+
+    jasmine.expect(foo).not.toThrowError("foo bar baz");
+    jasmine.expect(foo).not.toThrowError(/bar/);
+    jasmine.expect(foo).not.toThrowError(TypeError);
+    jasmine.expect(foo).not.toThrowError(TypeError, "foo bar baz");
+  });
+});
+
+jasmine.execute();
+

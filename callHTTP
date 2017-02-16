@@ -1,0 +1,5 @@
+var http = require("http");
+var response = http.request({url: "https://api.whatdoestrumpthink.com/api/v1/quotes/random"});
+ 
+console.log(JSON.stringify(response));
+return response;

@@ -1,0 +1,11 @@
+var jasmine = require("modules/jasmine/boot");
+
+jasmine.describe("any", function() {
+  jasmine.it("matches any value", function() {
+   jasmine.expect({}).toEqual(jasmine.any(Object));
+    jasmine.expect(12).toEqual(jasmine.any(Number));
+    jasmine.expect("12").toEqual(jasmine.any(String));
+  });
+  });
+  
+jasmine.execute();

@@ -1,0 +1,9 @@
+log.setLevel("debug"); //levels are ERROR | WARN | INFO | DEBUG | OFF
+  
+console.error("This is the error message of the script");
+console.warn("This is the warning message of the script");
+console.info("This is the info message of the script");
+console.debug("This is the debug message of the script");
+
+jsonToXml
+
